@@ -15,8 +15,8 @@ def build_dirs(parent, ctx, lines):
             if folder == '/':
                 pass
             elif folder == '..':
-                up = list(parent)
-                up = ''.join(up[:len(up) - 2])
+                up = parent.split('/')[1:]
+                up = '/' if len(up) == 2 else "//" + ''.join(up[:len(up) - 1])
                 build_dirs(up, ctx, lines)
             else:
                 build_dirs(parent + '/' + folder, ctx, lines)
@@ -54,7 +54,7 @@ def find_total_size_at_most(ctx, max_size=100000):
 
 
 def solution():
-    datastream = list(load_data("sample2.txt"))
+    datastream = list(load_data("input.txt"))
     ctx = {}
     parent = '/'
     build_dirs(parent, ctx, iter(datastream))
