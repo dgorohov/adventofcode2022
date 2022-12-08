@@ -1,6 +1,25 @@
+from functools import reduce
+
+
+def take_until(predicate, data):
+    it = range(len(data))
+    for index in it:
+        yield data[index]
+        if not predicate(data[index]):
+            break
+
+
 def load_data(f):
     with open(f, "r") as f:
         return list(map(lambda x: x.strip(), f.readlines()))
+
+
+def load_data_as_arr(f):
+    def reducer(out, inp):
+        return out + [list(inp.strip())]
+
+    with open(f, "r") as f:
+        return reduce(reducer, f.readlines(), [])
 
 
 def load_data_sep(f, sep=''):
